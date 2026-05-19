@@ -1,7 +1,7 @@
 {
-  "name" : "bookmark",
+  "name" : "recipe-manager",
   "version" : "0.1.0",
-  "description" : "MCP server to save, tag, search and aggregate URL bookmarks with in-memory storage",
+  "description" : "MCP server to add, list, search and rate cooking recipes with in-memory storage",
   "type" : "module",
   "main" : "dist/index.js",
   "scripts" : {

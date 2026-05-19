@@ -4,7 +4,7 @@
 #   3. Deploy — Cloud Run (us-central1), --allow-unauthenticated.
 #   4. URL  — print to job log, GitHub Step Summary, downloadable artifact.
 
-name: CI/CD - bookmark Deploy to Cloud Run
+name: CI/CD - recipe-manager Deploy to Cloud Run
 
 on:
   push:
@@ -42,13 +42,13 @@ on:
 # Cloud Run revision history from a thrash of half-finished deploys when
 # the user pushes multiple commits in quick succession.
 concurrency:
-  group: bookmark-${{ github.ref }}
+  group: recipe-manager-${{ github.ref }}
   cancel-in-progress: true
 
 env:
   PROJECT_ID:                    probestack-prod
   REGION:                        us-central1
-  SERVICE_NAME:                  bookmark
+  SERVICE_NAME:                  recipe-manager
   REPOSITORY:                    probestack-prod-apps
   SERVICE_ACCOUNT_EMAIL:         github-actions-forgecrux@probestack-prod.iam.gserviceaccount.com
   WORKLOAD_IDENTITY_PROVIDER:    projects/861433193200/locations/global/workloadIdentityPools/github-pool/providers/github-provider

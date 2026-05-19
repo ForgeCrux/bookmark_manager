@@ -1,39 +1,97 @@
 {
-  "slug" : "bookmark",
-  "name" : "Bookmark Manager",
-  "description" : "MCP server to save, tag, search and aggregate URL bookmarks with in-memory storage",
+  "slug" : "recipe-manager",
+  "name" : "Recipe Manager MCP",
+  "description" : "MCP server to add, list, search and rate cooking recipes with in-memory storage",
   "category" : "Productivity",
   "transport" : "STREAMABLE_HTTP",
   "serverUrl" : "http://localhost:3500/mcp",
   "requiresAuth" : true,
   "tools" : [ {
-    "name" : "save_bookmark",
-    "description" : "Saves a new bookmark with URL, title and optional tags. Returns the bookmark ID.",
+    "name" : "add_recipe",
+    "description" : "Adds a new recipe with name, cuisine, ingredients and steps. Returns the recipe ID.",
     "inputSchema" : {
       "type" : "object",
       "properties" : {
-        "url" : {
+        "name" : {
           "type" : "string",
-          "format" : "uri",
-          "description" : "Full URL (https://...)"
+          "description" : "Recipe name (max 200 chars)"
         },
-        "title" : {
+        "cuisine" : {
           "type" : "string",
-          "description" : "Display title (max 200 chars)"
+          "description" : "Cuisine type, e.g. Italian, Indian, Mexican"
         },
-        "tags" : {
+        "ingredients" : {
           "type" : "array",
           "items" : {
             "type" : "string"
           },
-          "description" : "Free-form tags"
+          "description" : "List of ingredients"
         },
-        "note" : {
-          "type" : "string",
-          "description" : "Optional personal note"
+        "steps" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "description" : "Ordered cooking steps"
+        },
+        "prepTimeMinutes" : {
+          "type" : "integer",
+          "description" : "Total prep + cook time"
         }
       },
-      "required" : [ "url", "title" ]
+      "required" : [ "name", "cuisine", "ingredients", "steps" ]
+    }
+  }, {
+    "name" : "list_recipes",
+    "description" : "Lists all recipes, optionally filtered by cuisine.",
+    "inputSchema" : {
+      "type" : "object",
+      "properties" : {
+        "cuisine" : {
+          "type" : "string",
+          "description" : "Filter by cuisine (case-insensitive). Omit for all."
+        },
+        "limit" : {
+          "type" : "integer",
+          "description" : "Max results (default 50)"
+        }
+      }
+    }
+  }, {
+    "name" : "search_recipes",
+    "description" : "Full-text search across recipe names, ingredients and cuisines.",
+    "inputSchema" : {
+      "type" : "object",
+      "properties" : {
+        "query" : {
+          "type" : "string",
+          "description" : "Search term — matches any recipe field"
+        },
+        "limit" : {
+          "type" : "integer",
+          "description" : "Max results (default 20)"
+        }
+      },
+      "required" : [ "query" ]
+    }
+  }, {
+    "name" : "rate_recipe",
+    "description" : "Adds a 1-5 star rating for a recipe and returns the new average.",
+    "inputSchema" : {
+      "type" : "object",
+      "properties" : {
+        "recipeId" : {
+          "type" : "string",
+          "description" : "UUID of the recipe to rate"
+        },
+        "stars" : {
+          "type" : "integer",
+          "minimum" : 1,
+          "maximum" : 5,
+          "description" : "Rating 1-5"
+        }
+      },
+      "required" : [ "recipeId", "stars" ]
     }
   } ]
 }

@@ -1,0 +1,39 @@
+{
+  "slug" : "bookmark",
+  "name" : "Bookmark Manager",
+  "description" : "MCP server to save, tag, search and aggregate URL bookmarks with in-memory storage",
+  "category" : "Productivity",
+  "transport" : "STREAMABLE_HTTP",
+  "serverUrl" : "http://localhost:3500/mcp",
+  "requiresAuth" : true,
+  "tools" : [ {
+    "name" : "save_bookmark",
+    "description" : "Saves a new bookmark with URL, title and optional tags. Returns the bookmark ID.",
+    "inputSchema" : {
+      "type" : "object",
+      "properties" : {
+        "url" : {
+          "type" : "string",
+          "format" : "uri",
+          "description" : "Full URL (https://...)"
+        },
+        "title" : {
+          "type" : "string",
+          "description" : "Display title (max 200 chars)"
+        },
+        "tags" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "description" : "Free-form tags"
+        },
+        "note" : {
+          "type" : "string",
+          "description" : "Optional personal note"
+        }
+      },
+      "required" : [ "url", "title" ]
+    }
+  } ]
+}
